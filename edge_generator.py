@@ -9,15 +9,15 @@ import numpy as np
 from tqdm import tqdm
 
 # Append custom datasets below list
-dataset_list = ['DUTS', 'DUT-O', 'HKU-IS', 'ECSSD', 'PASCAL-S']
+dataset_list = ['DUTS']
 
 
 def edge_generator(dataset):
     if dataset == 'DUTS':
-        mask_path = os.path.join('data/', dataset, 'Train/masks/')
+        mask_path = os.path.join('DUTS-TR/', dataset, 'DUTS-TR-Mask')
     else:
         mask_path = os.path.join('data/', dataset, 'Test/masks/')
-    save_path = os.path.join('data/', dataset, 'Train/edges/')
+    save_path = os.path.join('DUTS-TR/', dataset, 'edges/')
     os.makedirs(save_path, exist_ok=True)
     mask_list = os.listdir(mask_path)
 
