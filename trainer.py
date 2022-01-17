@@ -20,7 +20,7 @@ import torch_xla.core.xla_model as xm
 class Trainer():
     def __init__(self, args, save_path):
         super(Trainer, self).__init__()
-        self.device = device = xm.xla_device()
+        self.device = xm.xla_device()
         self.size = args.img_size
 
         self.tr_img_folder = os.path.join('DUTS-TR/', 'DUTS-TR-Image/')
