@@ -217,7 +217,7 @@ class Trainer():
 class Tester():
     def __init__(self, args, save_path):
         super(Tester, self).__init__()
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device = xm.xla_device()
         self.test_transform = get_test_augmentation(img_size=args.img_size)
         self.args = args
         self.save_path = save_path
