@@ -62,18 +62,18 @@ class Frequency_Edge_Module(nn.Module):
         Returns:
             Edge refined representation: X + edge (B, C, H, W)
         """
-        print(x.dtype)
+#         print(x.dtype)
         x_fft = fft2(x, dim=(-2, -1))
         x_fft = fftshift(x_fft)
 
         # Mask -> low, high separate
         mask = self.mask_radial(img=x, r=self.radius)
-        print(mask.dtype)
+#         print(mask.dtype)
         high_frequency = x_fft * (1 - mask)
         x_fft = ifftshift(high_frequency)
         x_fft = ifft2(x_fft, dim=(-2, -1))
-        print(x_fft.dtype)
-        x_H = torch.abs(x_fft)
+#         print(x_fft.dtype)
+        x_H = torch.abs(torch.view_as_real(x_fft))
 
         x_H, _ = self.UAM.Channel_Tracer(x_H)
         edge_maks = self.DWSConv(x_H)
