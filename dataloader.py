@@ -7,7 +7,8 @@ from pathlib import Path
 from albumentations.pytorch.transforms import ToTensorV2
 from torch.utils.data import Dataset, DataLoader
 from sklearn.model_selection import train_test_split
-
+import torch_xla
+import torch_xla.core.xla_model as xm
 
 class DatasetGenerate(Dataset):
     def __init__(self, img_folder, gt_folder, edge_folder, phase: str = 'train', transform=None, seed=None):
@@ -138,7 +139,7 @@ def gt_to_tensor(gt):
     gt = cv2.imread(gt)
     gt = cv2.cvtColor(gt, cv2.COLOR_BGR2GRAY) / 255.0
     gt = np.where(gt > 0.5, 1.0, 0.0)
-    gt = torch.tensor(gt, device='cuda', dtype=torch.float32)
+    gt = torch.tensor(gt, device=xm.xla_device(), dtype=torch.float32)
     gt = gt.unsqueeze(0).unsqueeze(1)
 
     return gt
