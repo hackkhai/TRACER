@@ -14,7 +14,7 @@ dataset_list = ['DUTS']
 
 def edge_generator(dataset):
     if dataset == 'DUTS':
-        mask_path = os.path.join('DUTS-TR/', 'DUTS-TR-Mask')
+        mask_path = os.path.join('DUTS-TR/', 'DUTS-TR-Mask/')
     else:
         mask_path = os.path.join('data/', 'Test/masks/')
     save_path = os.path.join('DUTS-TR/', 'edges/')
