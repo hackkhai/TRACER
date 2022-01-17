@@ -14,8 +14,8 @@ from util.utils import AvgMeter
 from util.metrics import Evaluation_metrics
 from util.losses import Optimizer, Scheduler, Criterion
 from model.TRACER import TRACER
-
-
+import torch_xla_py.xla_model as xm
+device = xm.xla_device()
 class Trainer():
     def __init__(self, args, save_path):
         super(Trainer, self).__init__()
@@ -113,7 +113,8 @@ class Trainer():
 
             loss.backward()
             nn.utils.clip_grad_norm_(self.model.parameters(), args.clipping)
-            self.optimizer.step()
+            xm.optimizer_step(self.optimizer)
+            xm.mark_step()
 
             # Metric
             mae = torch.mean(torch.abs(outputs - masks))
