@@ -8,7 +8,9 @@ from util.utils import *
 import torch.nn.functional as F
 from config import getConfig
 from modules.conv_modules import BasicConv2d, DWConv, DWSConv
-
+import torch_xla
+import torch_xla.core.xla_model as xm
+device = xm.xla_device()
 cfg = getConfig()
 
 
@@ -64,7 +66,7 @@ class Frequency_Edge_Module(nn.Module):
         x_fft = fftshift(x_fft)
 
         # Mask -> low, high separate
-        mask = self.mask_radial(img=x, r=self.radius).cuda()
+        mask = self.mask_radial(img=x, r=self.radius).to(device)
         high_frequency = x_fft * (1 - mask)
         x_fft = ifftshift(high_frequency)
         x_fft = ifft2(x_fft, dim=(-2, -1))
