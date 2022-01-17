@@ -15,16 +15,16 @@ from util.metrics import Evaluation_metrics
 from util.losses import Optimizer, Scheduler, Criterion
 from model.TRACER import TRACER
 import torch_xla_py.xla_model as xm
-device = xm.xla_device()
+
 class Trainer():
     def __init__(self, args, save_path):
         super(Trainer, self).__init__()
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device = device = xm.xla_device()
         self.size = args.img_size
 
-        self.tr_img_folder = os.path.join(args.data_path, args.dataset, 'Train/images/')
-        self.tr_gt_folder = os.path.join(args.data_path, args.dataset, 'Train/masks/')
-        self.tr_edge_folder = os.path.join(args.data_path, args.dataset, 'Train/edges/')
+        self.tr_img_folder = os.path.join('DUTS-TR/', 'DUTS-TR-Image/')
+        self.tr_gt_folder = os.path.join('DUTS-TR/', 'DUTS-TR-Mask/')
+        self.tr_edge_folder = os.path.join('DUTS-TR/', 'edges/')
 
         self.train_transform = get_train_augmentation(img_size=args.img_size, ver=args.aug_ver)
         self.test_transform = get_test_augmentation(img_size=args.img_size)
