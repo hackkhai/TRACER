@@ -14,7 +14,8 @@ from util.utils import AvgMeter
 from util.metrics import Evaluation_metrics
 from util.losses import Optimizer, Scheduler, Criterion
 from model.TRACER import TRACER
-import torch_xla_py.xla_model as xm
+import torch_xla
+import torch_xla.core.xla_model as xm
 
 class Trainer():
     def __init__(self, args, save_path):
